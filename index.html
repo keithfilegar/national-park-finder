@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Search for a national park to visit!</h1>
+        <form class="js-user-form">
+            <label for="searchSubject">Enter a park name here</label>
+            <input type="text" id="searchSubject" required>
+            <br>
+            <label for="state">Choose which states you would like to search</label>
+            <input id="state" placeholder="CA, OR, VA, etc." required>
+            <br>
+            <label for="searchNum">Set how many results you'd like to see</label>
+            <input type="number" id="searchNum" value="10" required>
+            <button type="submit" class="js-submit">Search</button>
+        </form>
+        <p class="js-error-message hidden"></p>
+        <ul class="js-park-list hidden">
+        </ul>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+        <script src="index.js"></script>
+    </body>
+</html>
