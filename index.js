@@ -1,30 +1,26 @@
 const apiKey = 'EsrB5PCddsoXUsVuWmffAOx6CNIMfBguK0hphSTa';
 const baseURL = 'https://developer.nps.gov/api/v1/parks'
 
-// stateCode is formated separtely from the other params due to its comma delineation, which will cause unwanted URI encoding in the formatQueryString() method.
-function formatStateCode(state) {
-    console.log('Formatting Started')
-    let formatedStateCode = state.toUpperCase().replace(/\s/g, '')
-    console.log(formatedStateCode)
-    return formatedStateCode;
-}
-
 function formatQueryString(params) {
     const queryItems = Object.keys(params).map(key =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+        `${encodeURI(key)}=${encodeURI(params[key])}`)
     return queryItems.join('&')
+}
+
+function displayResults(responseJson, resultLimit) {
+    console.log(responseJson)
 }
 
 function getParkList(searchTerm, state, resultLimit) {
     const params = {
         api_key: apiKey,
         q: searchTerm,
-        limit: resultLimit
+        limit: resultLimit,
+        stateCode: state
     }
 
-    const stateParam = `&stateCode=${formatStateCode(state)}`
     const queryString = formatQueryString(params)
-    const url = baseURL + '?' + queryString + stateParam
+    const url = baseURL + '?' + queryString
     console.log(url)
 
     fetch(url)
@@ -43,7 +39,7 @@ function handleParkSearch() {
         event.preventDefault();
         const searchTerm = $('#searchSubject').val();
         const resultLimit = $('#searchNum').val();
-        const state = $('#state').val();
+        const state = $('#state').val().replace(/\s/g, '');
 
         getParkList(searchTerm, state, resultLimit);
     })
