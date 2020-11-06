@@ -4,11 +4,24 @@ const baseURL = 'https://developer.nps.gov/api/v1/parks'
 function formatQueryString(params) {
     const queryItems = Object.keys(params).map(key =>
         `${encodeURI(key)}=${encodeURI(params[key])}`)
-    return queryItems.join('&')
+
+        return queryItems.join('&')
 }
 
-function displayResults(responseJson, resultLimit) {
+function displayResults(responseJson) {
     console.log(responseJson)
+    $('.js-park-list').empty();
+    console.log(responseJson.data[0].fullName)
+
+    for(i = 0; i < responseJson.data.length; i++) {
+        $('.js-park-list').append(
+        `<li>
+            <h3>${responseJson.data[i].fullName}</h3>
+            <p>${responseJson.data[i].description}</p>
+            <p><a href="${responseJson.data[i].url}">Visit the website here!</a></p>
+        </li>`)}
+
+    $('.js-park-list').removeClass('hidden')
 }
 
 function getParkList(searchTerm, state, resultLimit) {
@@ -31,7 +44,7 @@ function getParkList(searchTerm, state, resultLimit) {
         }
         return response.json()
     })
-    .then(responseJson => console.log(responseJson))
+    .then(responseJson => displayResults(responseJson))
 }
 
 function handleParkSearch() {
