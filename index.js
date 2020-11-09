@@ -11,7 +11,14 @@ function formatQueryString(params) {
 function displayResults(responseJson) {
     console.log(responseJson)
     $('.js-park-list').empty();
-    console.log(responseJson.data[0].fullName)
+    $('.js-error-message').empty();
+
+    if(responseJson.total === '0') {
+        $('.js-error-message').append(`<p>Sorry no results found :(</p>`)
+        $('.js-error-message').removeClass('hidden')
+
+        return
+    }
 
     for(i = 0; i < responseJson.data.length; i++) {
         $('.js-park-list').append(
@@ -25,11 +32,21 @@ function displayResults(responseJson) {
 }
 
 function getParkList(searchTerm, state, resultLimit) {
-    const params = {
-        api_key: apiKey,
-        q: searchTerm,
-        limit: resultLimit,
-        stateCode: state
+    let params = {}
+
+    if(searchTerm === '') {
+        params = {
+            api_key: apiKey,
+            limit: resultLimit,
+            stateCode: state
+    }} 
+    else {
+        params = {
+            api_key: apiKey,
+            q: searchTerm,
+            limit: resultLimit,
+            stateCode: state
+        }
     }
 
     const queryString = formatQueryString(params)
@@ -42,9 +59,12 @@ function getParkList(searchTerm, state, resultLimit) {
             alert("Error")
             throw Error(response.status + ": " + response.message)
         }
+
         return response.json()
     })
+
     .then(responseJson => displayResults(responseJson))
+
     .catch(error => {
         alert("Something went wrong. Please try again later.")
         console.log(error)
