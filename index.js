@@ -59,12 +59,10 @@ function getParkList(searchTerm, state, resultLimit) {
             alert("Error")
             throw Error(response.status + ": " + response.message)
         }
-
         return response.json()
     })
 
     .then(responseJson => displayResults(responseJson))
-
     .catch(error => {
         alert("Something went wrong. Please try again later.")
         console.log(error)
